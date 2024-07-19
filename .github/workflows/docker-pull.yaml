@@ -16,14 +16,22 @@ jobs:
       - name: docker login
         run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{env.REPO_NAME}} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
       - name: docker pull
+        id: docker_pull
         run:  cat docker-push | xargs -I {} docker pull {}
-      - name: Print a greeting
+        
+      - name: save as a tar and push to Aliyun
+        id: push_and_tar
         run: |
           mkdir image
-          echo ${{toJSON(steps)}}
+          echo ${{toJSON(steps.docker_pull)}}
           export DKNAME=$(cat docker-push)
           export DKID=$(docker images | grep $DKNAME | awk '{print $3}')
           docker save -o ./image/"$REPO_NAME-$DKNAME".tar $DKID
+          docker tag $DKID $REPO_NAME/${{github.actor}}/$DKNAME
+          docker push $REPO_NAME/${{github.actor}}/$DKNAME
+  
+      - name: display
+        run: echo ${{toJSON(steps.push_and_tar)}}
       - name: get image
         uses: actions/upload-artifact@v4
         with:

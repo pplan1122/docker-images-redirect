@@ -17,7 +17,7 @@ jobs:
           mkdir image
           cat docker-push | xargs -I {} docker pull {}
           docker images
-          cat docker-push | xargs -I docker save -o ./image/{}.tar {}
+          cat docker-push | xargs -I {} docker save -o ./image/{}.tar {}
       - name: get image
         uses: actions/upload-artifact@v4
         with:

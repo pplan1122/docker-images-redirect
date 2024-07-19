@@ -1,7 +1,7 @@
 
 name: docker-pull
 on: 
-  [push,workflow-dispatch]
+  [push,workflow_dispatch]
   # 
   # 添加input
 
@@ -13,3 +13,5 @@ jobs:
         run: |
           echo "Greeting-------"
           echo ${{toJSON(github)}}
+          echo "next is jbos"
+          echo ${{toJSON(jobs)}}

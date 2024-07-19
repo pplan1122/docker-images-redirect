@@ -19,6 +19,7 @@ jobs:
         run:  cat docker-push | xargs -I {} docker pull {}
       - name: Print a greeting
         run: |
+          mkdir image
           echo ${{toJSON(steps)}}
           export DKNAME=$(cat docker-push)
           export DKID=$(docker images | grep $DKNAME | awk '{print $3}')

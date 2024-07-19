@@ -9,12 +9,15 @@ jobs:
   pull-images:
     runs-on: ubuntu-latest
     steps:
+      - name: check out repo
+        uses: actions/checkout@v4 
       - name: Print a greeting
         run: |
           echo "Greeting-------"
-          echo ${{toJSON(inputs)}}
-          echo "next is steps----------"
-          echo ${{toJSON(steps)}}
+          echo ${{toJSON(runner)}}
+          echo "next is checkout----------"
+          ls
+          cat docker-push
           echo "next is vars-------------"
           echo ${{toJSON(vars)}}
           echo "next is job----------"

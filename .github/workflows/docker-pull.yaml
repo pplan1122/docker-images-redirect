@@ -19,7 +19,7 @@ jobs:
         run:  cat docker-push | xargs -I {} docker pull {}
       - name: Print a greeting
         run: |
-          echo ${{steps.'docker pull'}}
+          echo ${{steps}}
     
           docker images
           cat docker-push | xargs -I {} docker save -o ./image/{}.tar {}

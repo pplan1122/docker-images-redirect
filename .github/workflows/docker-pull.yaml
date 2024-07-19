@@ -14,10 +14,6 @@ jobs:
       - name: Print a greeting
         run: |
           ls
-          cat docker-push
+          cat docker-push | docker pull 
+          docker images
           echo ${{toJSON(runner)}}
-          echo "next is checkout----------"
-          echo "next is vars-------------"
-          echo ${{toJSON(vars)}}
-          echo "next is job----------"
-          echo ${{toJSON(job)}}

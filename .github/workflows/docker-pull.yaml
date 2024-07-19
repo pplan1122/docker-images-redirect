@@ -12,6 +12,10 @@ jobs:
       - name: Print a greeting
         run: |
           echo "Greeting-------"
-          echo ${{toJSON(github)}}
-          echo "next is jobs"
+          echo ${{toJSON(inputs)}}
+          echo "next is steps----------"
+          echo ${{toJSON(steps)}}
+          echo "next is vars-------------"
+          echo ${{toJSON(vars)}}
+          echo "next is job----------"
           echo ${{toJSON(job)}}

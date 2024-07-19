@@ -23,7 +23,6 @@ jobs:
         id: push_and_tar
         run: |
           mkdir image
-          echo ${{toJSON(steps.docker_pull)}}
           export DKNAME=$(cat docker-push)
           export DKID=$(docker images | grep $DKNAME | awk '{print $3}')
           docker save -o ./image/"$REPO_NAME-$DKNAME".tar $DKID
@@ -31,7 +30,7 @@ jobs:
           docker push $REPO_NAME/${{github.actor}}/$DKNAME
   
       - name: display
-        run: echo ${{toJSON(steps.push_and_tar)}}
+        run: echo "${{toJSON(steps.push_and_tar)}}"
       - name: get image
         uses: actions/upload-artifact@v4
         with:

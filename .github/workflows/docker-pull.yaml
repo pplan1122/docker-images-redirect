@@ -13,5 +13,5 @@ jobs:
         run: |
           echo "Greeting-------"
           echo ${{toJSON(github)}}
-          echo "next is jbos"
-          echo ${{toJSON(jobs)}}
+          echo "next is jobs"
+          echo ${{toJSON(job)}}

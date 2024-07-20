@@ -15,24 +15,15 @@ jobs:
         run: |
           mapfile -t ARRAY_FILENAMES < docker-images
           echo filenames=[${ARRAY_FILENAMES[@]}] >> "$GITHUB_OUTPUT"
-          echo "${ARRAY_FILENAMES[@]}"
-          echo 'filenames=\[${ARRAY_FILENAMES[@]}\]'
-          echo 'filenames=[${ARRAY_FILENAMES[@]}]'
 
   get-images: 
     needs: define-matrix
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
-    # uses: ./.github/workflows/docker_pull_one.yaml
-    # with:
-    #   filename: ${{matrix.filename}}
-    #   repo_name: $REPO_NAME
-    # secrets: inherit
-    steps:
-      - run: |
-          echo "$filename"
-          echo '---'
-          echo "${{ matrix.filename }}"
-
+    uses: ./.github/workflows/docker_pull_one.yaml
+    with:
+      filename: ${{matrix.filename}}
+      repo_name: $REPO_NAME
+    secrets: inherit
+   

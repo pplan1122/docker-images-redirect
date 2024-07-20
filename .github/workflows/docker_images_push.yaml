@@ -3,9 +3,7 @@ name: docker_images_push
 on: push
 env:
   REPO_NAME: ${{vars.ALIYUN_REPO_NAME}}
-  USER: ${{secrets.ALIYUN_USERNAME}}
-  PASS: ${{secrets.ALIYUN_PASSWORD}}
-
+  
 jobs:
   define-matrix:
     runs-on: ubuntu-latest
@@ -25,15 +23,17 @@ jobs:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
     
+  call-workflow-passing-data:
+    needs: get-images
     steps:
       - name: call workflow
         uses: ./github/workflows/docker_pull_one
         with:
           filename: ${{matrix.filename}}
           repo_name: $REPO_NAME
-        secrets:
-          username: ${{env.USER}}
-          password: ${{env.PASS}}
+          username: ${{secrets.ALIYUN_USERNAME}}
+          password: ${{secrets.ALIYUN_PASSWORD}}
+
 
       - name: report filename
         run: |

@@ -1,0 +1,39 @@
+name: docker_images_push
+
+on: push
+env:
+  REPO_NAME: ${{var.ALIYUN_REPO_NAME}}
+
+jobs:
+  define-matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out localrepo
+        uses: action/checkout@v4
+
+      - name: porcess the filename
+        run: |
+          mapfile -t ARRAY_FILENAMES < docker-images
+          echo 'filenames=[ "${ARRYA_FILENAMES[@]}" ] '>> "$GITHUB_OUTPUT"
+
+  get-images: 
+    runs-on: ubuntu-latest
+    needs: define-matrix
+    strategy:
+      matrix:
+        filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
+    
+    steps:
+      - name: call workflow
+        uses: ./github/workflows/docker_pull_one
+        with:
+          filename: ${{matrix.filename}}
+          repo_name: $REPO_NAME
+        secrets:
+          username: ${{secrets.ALIYUN_USERNAME}}
+          password: ${{secrets.ALIYUN_PASSWORD}}
+
+      - name: report filename
+        run: |
+          cat filename
+          echo "${{toJSON(needs.outputs)}}"

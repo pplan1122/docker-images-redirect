@@ -1,0 +1,51 @@
+
+name: docker_pull_one
+on: 
+  [workflow_call]
+    inputs:
+      filename:
+        description: 'docker file name'
+        requried: true
+        type: string
+      repo_name:
+        description: 'repo name'
+        defualt: 'docker.io'
+        type: string 
+    secrets:
+      username:
+        required: true
+      password:
+        required: true
+
+jobs:
+  pull-images:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: docker login
+        run: echo "${{secrets.password}}" | docker login ${{inputs.repo_name}} -u "${{secrets.username}}" --password-stdin
+      
+      - name: docker pull
+        id: docker_pull
+        run: docker pull ${{ inputs.filename }}
+  
+      - name: save as a tar and push to Aliyun
+        id: push_and_tar
+        run: |        
+          export DKID=$(docker images | grep ${{inputs.repo_name}} | awk '{print $3}')
+          docker save -o ./image/${{inputs.repo_name}}-${{inputs.filename}}.tar $DKID
+          docker tag $DKID ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
+          docker push ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
+          echo "dkid=$(echo '$DKID')" >> $GITHUB_OUTPUT
+
+      - name: display
+        run: echo "${{toJSON(steps.push_and_tar.outputs)}}"
+
+      - name: get image
+        uses: actions/upload-artifact@v4
+        with:
+          name: image
+          path: ./"${{inputs.repo_name}}-${{inputs.filename}}.tar"
+        
+      
+          

@@ -1,7 +1,7 @@
-
 name: docker_pull_one
+
 on: 
-  [workflow_call]
+  workflow_call:
     inputs:
       filename:
         description: 'docker file name'

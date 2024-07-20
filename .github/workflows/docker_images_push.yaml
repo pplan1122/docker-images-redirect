@@ -18,6 +18,7 @@ jobs:
 
   get-images: 
     needs: define-matrix
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      

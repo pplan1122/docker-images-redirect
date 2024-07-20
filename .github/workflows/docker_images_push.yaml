@@ -15,7 +15,7 @@ jobs:
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images|awk '$1{print}')
           json_array=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" | jq -R .| jq -s .| jq .)
-          echo "filenames=$json_array"
+          echo "filenames=$(echo $json_array)"
           echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
 
           
@@ -29,4 +29,11 @@ jobs:
       filename: ${{matrix.filename}}
       repo_name: $REPO_NAME
     secrets: inherit
-   
+
+    test:
+      needs: get-images
+      if: ${{always()}}
+      runs-on: ubuntu-latest
+      steps:
+        - name: test
+          run: echo ${{fromJSON(needs.defin-matrix.outputs.filenames)}}

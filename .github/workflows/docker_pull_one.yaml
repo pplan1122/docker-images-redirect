@@ -30,11 +30,11 @@ jobs:
       - name: save as a tar and push to Aliyun
         id: push_and_tar
         run: |        
-          export DKID=$(docker images | grep ${{inputs.repo_name}} | awk '{print $3}')
-          docker save -o ./image/${{inputs.repo_name}}-${{inputs.filename}}.tar $DKID
+          export DKID=$(docker images | grep ${{inputs.filename}} | awk '{print $3}')
+          docker save -o ./image/"${{inputs.repo_name}}-${{inputs.filename}}".tar $DKID
           docker tag $DKID ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
           docker push ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
-          echo "dkid=$(echo '$DKID')" >> $GITHUB_OUTPUT
+          echo "dkid=$DKID" >> $GITHUB_OUTPUT
 
       - name: display
         run: echo "${{toJSON(steps.push_and_tar.outputs)}}"

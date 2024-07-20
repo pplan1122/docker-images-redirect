@@ -26,7 +26,8 @@ jobs:
           done
           json="$json]"
           echo "$json"
-          echo "$json" >> $GITHUB_OUTPUT
+          echo "$json" >> "$GITHUB_OUTPUT"
+
           
   get-images: 
     needs: define-matrix

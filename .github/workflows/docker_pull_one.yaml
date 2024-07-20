@@ -11,11 +11,6 @@ on:
         description: 'repo name'
         default: 'docker.io'
         type: string 
-    secrets:
-      username:
-        required: true
-      password:
-        required: true
 
 jobs:
   pull-images:
@@ -23,7 +18,7 @@ jobs:
     steps:
       
       - name: docker login
-        run: echo "${{secrets.password}}" | docker login ${{inputs.repo_name}} -u "${{secrets.username}}" --password-stdin
+        run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{inputs.repo_name}} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
       
       - name: docker pull
         id: docker_pull

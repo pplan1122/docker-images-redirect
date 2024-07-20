@@ -44,18 +44,3 @@ jobs:
       filename: ${{matrix.filename}}
       repo_name: $REPO_NAME
     secrets: inherit
-
-  test:
-    needs: 
-      - get-images
-      - define-matrix
-    if: ${{always()}}
-    runs-on: ubuntu-latest
-    steps:
-      - name: test
-        run: |
-          
-          echo ${{needs.define-matrix.outputs.filenames}}
-          echo ${{ needs.define-matrix.result }}
-          echo ${{ toJSON(needs.define-matrix.outputs) }}
-          echo ${{ fromJSON(needs.define-matrix.outputs.filenames) }}  

@@ -42,5 +42,5 @@ jobs:
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       filename: ${{matrix.filename}}
-      repo_name: $REPO_NAME
+      repo_name: ${{env.REPO_NAME}}
     secrets: inherit

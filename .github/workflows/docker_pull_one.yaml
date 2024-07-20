@@ -12,13 +12,16 @@ on:
         default: 'docker.io'
         type: string 
 
+
 jobs:
   pull-images:
     runs-on: ubuntu-latest
     steps:
       
       - name: docker login
-        run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{inputs.repo_name}} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
+        run: |
+          echo ${{inputs.repo_name}}
+          echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{inputs.repo_name}} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
       
       - name: docker pull
         id: docker_pull

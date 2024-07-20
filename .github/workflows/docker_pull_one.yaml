@@ -34,7 +34,7 @@ jobs:
           IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "${{ inputs.filename }}" 
           IFS=$' \t\n'
           export IMAGE_ID=$(docker images | grep ${{inputs.filename}} | awk '$1 {print $3}')
-          docker save -o ./image/"$IMAGE_NAME"-"$IMAGE_TAG".tar $IMAGE_ID
+          docker save -o "$IMAGE_NAME"-"$IMAGE_TAG".tar $IMAGE_ID
           docker tag $IMAGE_ID ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
           docker push ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
           echo "tar_name=$IMAGE_NAME-$IMAGE_TAG.tar" >> $GITHUB_OUTPUT

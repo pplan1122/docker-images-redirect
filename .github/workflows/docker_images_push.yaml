@@ -14,8 +14,9 @@ jobs:
       - name: porcess the filename
         run: |
           mapfile -t ARRAY_FILENAMES < docker-images
-          echo 'filenames=[ "${ARRAY_FILENAMES[@]}" ] '>> "$GITHUB_OUTPUT"
+          echo 'filenames=[ "${ARRAY_FILENAMES[@]}" ]'>> "$GITHUB_OUTPUT"
           echo "${ARRAY_FILENAMES[@]}"
+          echo 'filenames=["${ARRAY_FILENAMES[@]}"]'
 
   get-images: 
     needs: define-matrix

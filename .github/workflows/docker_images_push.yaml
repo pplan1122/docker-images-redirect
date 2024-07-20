@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check out localrepo
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
       - name: porcess the filename
         run: |
@@ -23,17 +23,10 @@ jobs:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
     
-    steps:
-      - name: call workflow
-        uses: ./github/workflows/docker_pull_one
-        with:
-          filename: ${{matrix.filename}}
-          repo_name: $REPO_NAME
-          username: ${{secrets.ALIYUN_USERNAME}}
-          password: ${{secrets.ALIYUN_PASSWORD}}
+    uses: ./github/workflows/docker_pull_one
+    with:
+      filename: ${{matrix.filename}}
+      repo_name: $REPO_NAME
+    secrets: inherit
+    
 
-
-      - name: report filename
-        run: |
-          cat filename
-          echo "${{toJSON(needs.outputs)}}"

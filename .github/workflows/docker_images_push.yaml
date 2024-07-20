@@ -17,12 +17,10 @@ jobs:
           echo 'filenames=[ "${ARRYA_FILENAMES[@]}" ] '>> "$GITHUB_OUTPUT"
 
   get-images: 
-    runs-on: ubuntu-latest
     needs: define-matrix
     strategy:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
-    
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       filename: ${{matrix.filename}}

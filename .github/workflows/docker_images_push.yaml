@@ -14,7 +14,7 @@ jobs:
       - name: porcess the filename
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1{print}')
-          json="array=["
+          json="Results=["
           first=true
           for item in "${ARRAY_FILENAMES[@]}"; do
             if [ "$first" = true ]; then
@@ -32,7 +32,7 @@ jobs:
     needs: define-matrix
     strategy:
       matrix:
-        filename: ${{fromJSON(needs.define-matrix.outputs.array)}}      
+        filename: ${{ fromJSON(needs.define-matrix.outputs.Results) }}      
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       filename: ${{matrix.filename}}
@@ -48,6 +48,8 @@ jobs:
     steps:
       - name: test
         run: |
-          echo ${{needs.define-matrix.outputs.array}}
+          
+          echo ${{needs.define-matrix.outputs.Results}}
           echo ${{ needs.define-matrix.result }}
           echo ${{ toJSON(needs.define-matrix.outputs) }}
+          echo ${{ fromJSON(needs.define-matrix.outputs.Results) }}  

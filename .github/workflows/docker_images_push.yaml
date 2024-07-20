@@ -13,20 +13,21 @@ jobs:
 
       - name: porcess the filename
         run: |
-          mapfile -t ARRAY_FILENAMES < <(cat docker-images|awk '$1{print}')
-          QQQ=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" )
-       
-
-          json_array='['
-          for i in "${!QQQ[@]}"; do
-            json_array+="\"${QQQ[$i]}\","
+          mapfile -t ARRAY_FILENAMES < <(cat abc|awk '$1{print}')
+          json="array=["
+          first=true
+          for item in "${ARRAY_FILENAMES[@]}"; do
+            if [ "$first" = true ]; then
+              first=false
+            else
+              json="$json,"
+            fi
+            json="$json\"$item\""
           done
-          json_array="${json_array%,}]"
-          echo "$json_array" | jq .
-          echo "$json_array"
+          json="$json]"
+          echo "$json"
 
     # echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
-   # | jq -R .| jq -s .| jq .
           
   get-images: 
     needs: define-matrix

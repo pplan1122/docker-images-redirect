@@ -28,7 +28,7 @@ jobs:
     # secrets: inherit
     steps:
       - run: |
-        echo "$filename"
-        echo '---'
-        echo "${{ matrix.filename }}"
+          echo "$filename"
+          echo '---'
+          echo "${{ matrix.filename }}"
 

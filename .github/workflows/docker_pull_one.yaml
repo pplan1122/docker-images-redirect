@@ -13,6 +13,7 @@ on:
         type: string 
 
 
+
 jobs:
   pull-images:
     runs-on: ubuntu-latest
@@ -29,12 +30,14 @@ jobs:
   
       - name: save as a tar and push to Aliyun
         id: push_and_tar
-        run: |        
-          export DKID=$(docker images | grep ${{inputs.filename}} | awk '{print $3}')
-          docker save -o ./image/"${{inputs.repo_name}}-${{inputs.filename}}".tar $DKID
-          docker tag $DKID ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
+        run: |
+          IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "${{ inputs.filename }}" 
+          IFS=$' \t\n'
+          export IMAGE_ID=$(docker images | grep ${{inputs.filename}} | awk '$1 {print $3}')
+          docker save -o ./image/"$IMAGE_NAME"-"$IMAGE_TAG".tar $IMAGE_ID
+          docker tag $IMAGE_ID ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
           docker push ${{inputs.repo_name}}/${{github.actor}}/${{inputs.filename}}
-          echo "dkid=$DKID" >> $GITHUB_OUTPUT
+          echo "tar_name=$IMAGE_NAME-$IMAGE_TAG.tar" >> $GITHUB_OUTPUT
 
       - name: display
         run: echo "${{toJSON(steps.push_and_tar.outputs)}}"
@@ -43,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: image
-          path: ./"${{inputs.repo_name}}-${{inputs.filename}}.tar"
+          path: ${{steps.push_and_tar.outputs.tar_name}}
         
       
           

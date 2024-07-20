@@ -2,7 +2,7 @@ name: docker_images_push
 
 on: push
 env:
-  REPO_NAME: ${{var.ALIYUN_REPO_NAME}}
+  REPO_NAME: ${{vars.ALIYUN_REPO_NAME}}
 
 jobs:
   define-matrix:

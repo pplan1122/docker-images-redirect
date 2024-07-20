@@ -26,7 +26,7 @@ jobs:
           done
           json="$json]"
           echo "$json"
-          echo "$json">>"$GITHUB_OUTPUT"
+          echo "$json" >> $GITHUB_OUTPUT
           
   get-images: 
     needs: define-matrix
@@ -40,9 +40,14 @@ jobs:
     secrets: inherit
 
   test:
-    needs: define-matrix
+    needs: 
+      - get-images
+      - define-matrix
     if: ${{always()}}
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo ${{needs.define-matrix.outputs.array}}
+        run: |
+          echo ${{needs.define-matrix.outputs.array}}
+          echo ${{ needs.define-matrix.result }}
+          echo ${{ toJSON(needs.define-matrix.outputs) }}

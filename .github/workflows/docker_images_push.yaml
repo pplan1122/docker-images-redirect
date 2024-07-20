@@ -32,7 +32,7 @@ jobs:
     needs: define-matrix
     strategy:
       matrix:
-        filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
+        filename: ${{fromJSON(needs.define-matrix.outputs.filenames)}}      
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       filename: ${{matrix.filename}}
@@ -45,4 +45,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo ${{fromJSON(needs.defin-matrix.outputs.filenames)}}
+        run: echo ${{fromJSON(needs.define-matrix.outputs.filenames)}}

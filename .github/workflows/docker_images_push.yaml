@@ -23,7 +23,7 @@ jobs:
       matrix:
         filename: ${{fromJSON(needs.defin-matrix.outputs.filenames)}}      
     
-    uses: ./github/workflows/docker_pull_one@main
+    uses: ./.github/workflows/docker_pull_one@main
     with:
       filename: ${{matrix.filename}}
       repo_name: $REPO_NAME

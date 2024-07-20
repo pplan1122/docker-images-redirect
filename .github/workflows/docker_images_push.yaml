@@ -1,8 +1,6 @@
 name: docker_images_push
 
 on: push
-env:
-  REPO_NAME: ${{vars.ALIYUN_REPO_NAME}}
 
 jobs:
   define-matrix:
@@ -42,5 +40,5 @@ jobs:
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       filename: ${{matrix.filename}}
-      repo_name: ${{env.REPO_NAME}}
+      repo_name: ${{vars.ALIYUN_REPO_NAME}}
     secrets: inherit

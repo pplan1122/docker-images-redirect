@@ -30,10 +30,10 @@ jobs:
       repo_name: $REPO_NAME
     secrets: inherit
 
-    test:
-      needs: get-images
-      if: ${{always()}}
-      runs-on: ubuntu-latest
-      steps:
-        - name: test
-          run: echo ${{fromJSON(needs.defin-matrix.outputs.filenames)}}
+  test:
+    needs: get-images
+    if: ${{always()}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: test
+        run: echo ${{fromJSON(needs.defin-matrix.outputs.filenames)}}

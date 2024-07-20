@@ -15,7 +15,7 @@ jobs:
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images|awk '$1{print}')
           QQQ=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" )
-          # | jq -R .| jq -s .| jq .
+       
 
           json_array='['
           for i in "${!QQQ[@]}"; do
@@ -25,8 +25,8 @@ jobs:
           echo "$json_array" | jq .
           echo "$json_array"
 
-          # echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
-
+    # echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
+   # | jq -R .| jq -s .| jq .
           
   get-images: 
     needs: define-matrix

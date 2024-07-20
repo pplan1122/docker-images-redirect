@@ -40,9 +40,9 @@ jobs:
     secrets: inherit
 
   test:
-    needs: get-images
+    needs: define-matrix
     if: ${{always()}}
     runs-on: ubuntu-latest
     steps:
       - name: test
-        run: echo "${{needs.define-matrix.outputs.array}}"
+        run: echo ${{needs.define-matrix.outputs.array}}

@@ -50,7 +50,7 @@ jobs:
       - name: get image
         uses: actions/upload-artifact@v4
         with:
-          name: image
+          name: my-artifact-${{ github.sha }}
           path: ${{steps.push_and_tar.outputs.tar_name}}
         
       

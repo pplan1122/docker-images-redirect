@@ -14,7 +14,8 @@ jobs:
       - name: porcess the filename
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images|awk '$1{print}')
-          QQQ=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" | jq -R .| jq -s .| jq .)
+          QQQ=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" )
+          # | jq -R .| jq -s .| jq .
 
           json_array='['
           for i in "${!QQQ[@]}"; do

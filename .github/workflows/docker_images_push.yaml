@@ -14,10 +14,9 @@ jobs:
       - name: porcess the filename
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images|awk '$1{print}')
-          json_array=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" | jq -R .| jq -s .)
+          json_array=$(printf '%s\n' "${ARRAY_FILENAMES[@]}" | jq -R .| jq -s .| jq .)
           echo "filenames=$json_array"
-          echo "filenames=$json_array" >> "$GITHUB_OUTPUT"
-          echo $json_array
+          echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
 
           
   get-images: 

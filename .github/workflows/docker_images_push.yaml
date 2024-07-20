@@ -13,7 +13,7 @@ jobs:
 
       - name: porcess the filename
         run: |
-          mapfile -t ARRAY_FILENAMES < <(cat abc|awk '$1{print}')
+          mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1{print}')
           json="array=["
           first=true
           for item in "${ARRAY_FILENAMES[@]}"; do
@@ -26,8 +26,7 @@ jobs:
           done
           json="$json]"
           echo "$json"
-
-    # echo "filenames=$(echo $json_array)" >> "$GITHUB_OUTPUT"
+          echo "$json">>"$GITHUB_OUTPUT"
           
   get-images: 
     needs: define-matrix

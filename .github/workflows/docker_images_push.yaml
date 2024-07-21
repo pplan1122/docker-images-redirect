@@ -13,10 +13,10 @@ jobs:
       - name: check out localrepo
         uses: actions/checkout@v4
 
-      - name: porcess the filename
+      - name: porcess the file
         id: filenames
         run: |
-          mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1{print}')
+          mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
           json="filenames=["
           first=true
           for item in "${ARRAY_FILENAMES[@]}"; do
@@ -32,13 +32,13 @@ jobs:
           echo "$json" >> "$GITHUB_OUTPUT"
 
           
-  get-images: 
-    needs: define-matrix
-    strategy:
-      matrix:
-        filename: ${{ fromJSON(needs.define-matrix.outputs.filenames) }}      
-    uses: ./.github/workflows/docker_pull_one.yaml
-    with:
-      filename: ${{matrix.filename}}
-      repo_name: ${{vars.ALIYUN_REPO_NAME}}
-    secrets: inherit
+  # get-images: 
+  #   needs: define-matrix
+  #   strategy:
+  #     matrix:
+  #       filename: ${{ fromJSON(needs.define-matrix.outputs.filenames) }}      
+  #   uses: ./.github/workflows/docker_pull_one.yaml
+  #   with:
+  #     filename: ${{matrix.filename}}
+  #     repo_name: ${{vars.ALIYUN_REPO_NAME}}
+  #   secrets: inherit

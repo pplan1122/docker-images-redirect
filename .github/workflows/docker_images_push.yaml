@@ -17,6 +17,7 @@ jobs:
         id: filenames
         run: |
           mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
+          echo ARRAY_FILENAMES
           json="filenames=["
           first=true
           for item in "${ARRAY_FILENAMES[@]}"; do

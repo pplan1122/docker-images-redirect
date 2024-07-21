@@ -1,9 +1,9 @@
 
 name: docker-pull
+
 on: 
-  [push,workflow_dispatch]
-  # 
-  # 添加input
+  push
+
 env: 
   REPO_NAME: ${{vars.ALIYUN_REPO_NAME}}
 
@@ -20,8 +20,6 @@ jobs:
         run: |
           cat docker-push >> $GITHUB_OUTPUT
           
-          
-        
       - name: docker pull
         id: docker_pull
         run: |
@@ -32,7 +30,6 @@ jobs:
         id: push_and_tar
         run: |
 
-        
           mkdir image
           export DKNAME=$(cat docker-push)
           export DKID=$(docker images | grep $DKNAME | awk '{print $3}')

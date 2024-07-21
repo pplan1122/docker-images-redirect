@@ -12,8 +12,6 @@ on:
         default: 'docker.io'
         type: string 
 
-
-
 jobs:
   pull-images:
     runs-on: ubuntu-latest
@@ -32,9 +30,6 @@ jobs:
         id: push_and_tar
         run: |
           IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "${{ inputs.filename }}" 
-          IFS=$' \t\n'
-          echo $IMAGE_NAME
-          echo $IMAGE_TAG
           if [ -z $IMAGE_TAG ];then
             IMAGE_TAG="latest"
           fi
@@ -43,9 +38,6 @@ jobs:
           docker tag "$IMAGE_ID" ${{inputs.repo_name}}/${{github.actor}}/"$IMAGE_NAME":"$IMAGE_TAG"
           docker push ${{inputs.repo_name}}/${{github.actor}}/"$IMAGE_NAME":"$IMAGE_TAG"
           echo "tar_name=$IMAGE_NAME-$IMAGE_TAG.tar" >> $GITHUB_OUTPUT
-
-      - name: display
-        run: echo "${{toJSON(steps.push_and_tar.outputs)}}"
 
       - name: get image
         uses: actions/upload-artifact@v4

@@ -39,12 +39,12 @@ jobs:
             json="$json,\"tag\":$IMAGE_TAG\""
 
             IMAGE_PLATFORM=$(echo $line | awk '$0 ~/--platform/ {split($0,array,/--platform[ |=]/); print array[2]}'| awk '{print $1}')
-            if [ -n $IMAGE_PLATFORM && $REPO != "\n" ];then
+            if [ -n $IMAGE_PLATFORM ] && [ $IMAGE_PLATFORM  != "\n" ];then
               json="$json,\"platform\":\"$IMAGE_PLATFORM\""
             fi
 
             REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{print $1}')
-            if [ -n $REPO && $REPO != "\n" ];then
+            if [ -n $REPO ] && [ $REPO != "\n" ];then
               json="$json,\"repo\":\"$REPO\""
             fi
             json="$json}"

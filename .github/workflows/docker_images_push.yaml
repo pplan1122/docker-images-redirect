@@ -20,27 +20,26 @@ jobs:
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
           while IFS= read -r line; do
-            IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "$( echo \"$line\" | awk '{split($1,array,":");print array[1],array[2]}')"       
-            IFS=$' \t\n'
-
+            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo \"$line\" | awk '{split($1,array,":");print array[1],array[2]}')"       
+            
             echo $IMAGE_NAME
-            json="{$json\"name:$IMAGE_NAME\","
+            json="{$json\"name\":$IMAGE_NAME\","
             
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
             if [ -z $IMAGE_TAG ];then
               IMAGE_TAG="latest"
             fi 
-            json="$json\"tag:$IMAGE_TAG\","
+            json="$json\"tag\":$IMAGE_TAG\","
 
             IMAGE_PLATFORM=$(echo $line | awk '$0 ~/--platform/ {split($0,array,/--platform[ |=]/); print array[2]}'| awk '{print $1}')
             if [ -z $IMAGE_PLATFORM ];then
-              json="$json\"platform:$IMAGE_PLATFORM\","
+              json="$json\"platform\":$IMAGE_PLATFORM\","
             fi
             REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{print $1}')
             if [ -z $REPO ];then
-              json="$json\"repo:$REPO\","
+              json="$json\"repo\":$REPO\","
             fi
-            json="$json\},"
+            json="$json},"
           done <<< "$( cat docker-images | awk '$1 !~ /^#/ {if($1)print}')"
 
 

@@ -74,7 +74,7 @@ jobs:
       name: ${{matrix.files.name }}
       tag: ${{matrix.files.tag }}
       platform: ${{matrix.files.platform }}
-      repo-pull: ${{matrix.files.repo }}
+    
       repo-push: ${{vars.ALIYUN_REPO_NAME}}
     secrets: inherit
 

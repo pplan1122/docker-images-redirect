@@ -26,11 +26,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: docker login for pull
-        if: ${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }} 
         run: |
-          REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '$1=tolower($1)' FS="_" OFS=".")
-          echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
-
+          if [ -n ${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }} ];then
+            REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '$1=tolower($1)' FS="_" OFS=".")
+            echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
+          fi
       - name: docker pull
         run: |
           docker pull --platform=${{ inputs.platform }} ${{ inputs.name }}:${{ inputs.tag }}

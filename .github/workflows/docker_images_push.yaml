@@ -16,15 +16,15 @@ jobs:
       - name: porcess the file
         id: filenames
         run: |
-          json="files=[{"
+          json="files=["
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
           while IFS= read -r line; do
-            IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "$( echo '$line' | awk '{split($1,array,":");print array[1],array[2]}')"       
+            IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "$( echo \"$line\" | awk '{split($1,array,":");print array[1],array[2]}')"       
             IFS=$' \t\n'
 
             echo $IMAGE_NAME
-            json="$json\"name:$IMAGE_NAME\","
+            json="{$json\"name:$IMAGE_NAME\","
             
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
             if [ -z $IMAGE_TAG ];then

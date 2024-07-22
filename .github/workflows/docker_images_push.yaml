@@ -39,7 +39,7 @@ jobs:
             if [ -z $IMAGE_TAG ];then
               IMAGE_TAG="latest"
             fi 
-            json="$json,\"tag\":$IMAGE_TAG\""
+            json="$json,\"tag\":\"$IMAGE_TAG\""
 
             IMAGE_PLATFORM=$(echo $line | awk '$0 ~/--platform/ {split($0,array,/--platform[ |=]/); print array[2]}'| awk '{print $1}')
             if [ -z $IMAGE_PLATFORM ];then

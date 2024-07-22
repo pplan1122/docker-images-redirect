@@ -3,49 +3,51 @@ name: docker_pull_one
 on: 
   workflow_call:
     inputs:
-      filename:
-        description: 'docker file name'
-        required: true
+      name:
+        description: 'docker image name'
         type: string
-      repo_name:
-        description: 'repo name'
-        default: 'docker.io'
-        type: string 
-
+      tag:
+        description: 'docker image tag'
+        type: string
+      platform:
+        description: 'docker image target platform'
+        type: string
+      repo_pull:
+        description: 'repo for pull'
+        type: string
+      repo_push:
+        description: 'repo for push'
+        type: string  
 
 
 jobs:
   pull-images:
     runs-on: ubuntu-latest
     steps:
-      
-      - name: docker login
+      - name: docker login for pull
         run: |
-          echo ${{inputs.repo_name}}
-          echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{inputs.repo_name}} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
+          echo ${{inputs.repo_pull}}
+          repo_pull = ${{inputs.repo_pull}}/_/.
+          echo $repo_pull
+          echo "${{secrets[format('{0}_PASSWORD',inputs.repo_pull)]}}" | docker login $repo_pull -u "${{secrets[format('{0}_USERNAME',inputs.repo_pull)]}}" --password-stdin
       
       - name: docker pull
         id: docker_pull
-        run: docker pull ${{ inputs.filename }}
+        run: |
+          repo_pull = ${{inputs.repo_pull}}/_/. 
+          docker pull ${{ $repo_pull}}/${{ inputs.name }}:${{ inputs.tag }}
+
+      - name: docker login for push
+        run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{ inputs.repo_push }} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
   
       - name: save as a tar and push to Aliyun
         id: push_and_tar
         run: |
-          IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "${{ inputs.filename }}" 
-          IFS=$' \t\n'
-          echo $IMAGE_NAME
-          echo $IMAGE_TAG
-          if [ -z $IMAGE_TAG ];then
-            IMAGE_TAG="latest"
-          fi
-          export IMAGE_ID=$(docker images | grep $IMAGE_NAME | grep $IMAGE_TAG | awk '{if(NR==1)print $3}')
-          docker save -o "$IMAGE_NAME"-"$IMAGE_TAG".tar $IMAGE_ID
-          docker tag "$IMAGE_ID" ${{inputs.repo_name}}/${{github.actor}}/"$IMAGE_NAME":"$IMAGE_TAG"
-          docker push ${{inputs.repo_name}}/${{github.actor}}/"$IMAGE_NAME":"$IMAGE_TAG"
-          echo "tar_name=$IMAGE_NAME-$IMAGE_TAG.tar" >> $GITHUB_OUTPUT
-
-      - name: display
-        run: echo "${{toJSON(steps.push_and_tar.outputs)}}"
+          IMAGE_ID=$(docker images | grep ${{ inputs.name }}| grep ${{ inputs.tag }}| awk '{if(NR==1)print $3}')
+          docker save -o ${{inputs.name}}-${{inputs.tag}}.tar $IMAGE_ID
+          docker tag "$IMAGE_ID" ${{inputs.repo_push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
+          docker push ${{inputs.repo_push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
+          echo "tar_name=${{ inputs.name }}:${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
 
       - name: get image
         uses: actions/upload-artifact@v4

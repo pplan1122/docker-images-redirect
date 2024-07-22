@@ -41,7 +41,7 @@ jobs:
               json="$json\"repo:$REPO\","
             fi
             json="$json\},"
-          done <<< (cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
+          done <<< "$(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')"
 
 
           echo "$json"

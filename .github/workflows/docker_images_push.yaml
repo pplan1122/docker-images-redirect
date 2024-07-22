@@ -16,19 +16,35 @@ jobs:
       - name: porcess the file
         id: filenames
         run: |
-          mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
-          echo $ARRAY_FILENAMES
-          json="filenames=["
-          first=true
-          for item in "${ARRAY_FILENAMES[@]}"; do
-            if [ "$first" = true ]; then
-              first=false
-            else
-              json="$json,"
+# mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
+          
+          json="files=[{"
+#TODO 
+          while IFS= read -r line; do
+            IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "$( echo '$line' | awk '{print $1}'|)"       
+            IFS=$' \t\n'
+
+            echo $IMAGE_NAME
+            json="$json\"name:$IMAGE_NAME\","
+            
+            IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
+            if [ -z $IMAGE_TAG ];then
+              IMAGE_TAG="latest"
+            fi 
+            json="$json\"tag:$IMAGE_TAG\","
+
+            IMAGE_PLATFORM=$(echo $line | awk '$0 ~/--platform/ {split($0,array,/--platform[ |=]/); print array[2]}'| awk '{print $1}')
+            if [ -z $IMAGE_PLATFORM ];then
+              json="$json\"platform:$IMAGE_PLATFORM\","
             fi
-            json="$json\"$item\""
-          done
-          json="$json]"
+            REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{print $1}')
+            if [ -z $REPO ];then
+              json="$json\"repo:$REPO\","
+            fi
+            json="$json},"
+          done <<< (cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
+
+          
           echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"
 

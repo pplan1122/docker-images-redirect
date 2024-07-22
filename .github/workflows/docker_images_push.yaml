@@ -76,9 +76,9 @@ jobs:
     #   repo: ${{matrix.repo}}
     # secrets: inherit
     env:
-      name: ${{matrix.name}}
-      tag: ${{matrix.tag}}
-      repo: ${{matrix.repo}}
+      name: ${{matrix.filename.name }}
+      tag: ${{matrix.filename.tag }}
+      repo: ${{matrix.filename.repo }}
 
 
 

@@ -58,7 +58,8 @@ jobs:
             json="$json}"
           done <<< "$( cat docker-images | awk '$1 !~ /^#/ {if($1)print}')"
           json="$json]"
-          
+
+          echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"
 
 
@@ -67,14 +68,13 @@ jobs:
     needs: define-matrix
     strategy:
       matrix:
-        filename: ${{ fromJSON(needs.define-matrix.outputs.files) }}      
+        files: ${{ fromJSON(needs.define-matrix.outputs.files) }}      
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
-      name: ${{matrix.filename.name }}
-      tag: ${{matrix.filename.tag }}
-      platform: ${{matrix.filename.platform }}
-      repo-pull: ${{matrix.filename.repo }}
-      # 制定转存的私有仓库地址
+      name: ${{matrix.files.name }}
+      tag: ${{matrix.files.tag }}
+      platform: ${{matrix.files.platform }}
+      repo-pull: ${{matrix.files.repo }}
       repo-push: ${{vars.ALIYUN_REPO_NAME}}
     secrets: inherit
 

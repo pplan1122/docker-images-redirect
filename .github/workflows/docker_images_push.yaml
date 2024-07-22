@@ -57,8 +57,8 @@ jobs:
             fi
             json="$json}"
           done <<< "$( cat docker-images | awk '$1 !~ /^#/ {if($1)print}')"
-          json="$json]"
 
+          json="$json]"
           echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"
 

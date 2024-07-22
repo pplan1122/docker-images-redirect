@@ -16,10 +16,9 @@ jobs:
       - name: porcess the file
         id: filenames
         run: |
-# mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
-          
           json="files=[{"
-#TODO 
+          # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
+
           while IFS= read -r line; do
             IFS=':' read -r IMAGE_NAME IMAGE_TAG <<< "$( echo '$line' | awk '{print $1}'|)"       
             IFS=$' \t\n'
@@ -44,7 +43,7 @@ jobs:
             json="$json},"
           done <<< (cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
-          
+
           echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"
 

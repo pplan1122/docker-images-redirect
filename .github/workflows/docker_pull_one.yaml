@@ -28,8 +28,7 @@ jobs:
       - name: docker pull
         run: |
           echo ${{inputs.repo-pull}}
-          REPOSITORY=${{ inputs.repo-pull }}
-          REPOSITORY=${REPOSITORY/_/.}
+          REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '$1=tolower($1)'' FS="_" OFS=".")
           echo $REPOSITORY
           echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
           docker pull --platform=${{ inputs.platform }} $REPOSITORY/${{ inputs.name }}:${{ inputs.tag }}

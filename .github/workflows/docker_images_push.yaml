@@ -75,8 +75,16 @@ jobs:
     #   platform: ${{matrix.platform}}
     #   repo: ${{matrix.repo}}
     # secrets: inherit
+    env:
+      name: ${{matrix.name}}
+      tag: ${{matrix.tag}}
+      repo: ${{matrix.repo}}
+
+
+
+
     steps:
       - run: |
-        echo ${{matrix.name}}
-        echo ${{matrix.tag}}
-        echo ${{matrix.repo}}
+        echo ${{env.name}}
+        echo ${{env.tag}}
+        echo ${{env.repo}}

@@ -12,10 +12,10 @@ on:
       platform:
         description: 'docker image target platform'
         type: string
-      repo_pull:
+      repo-pull:
         description: 'repo for pull'
         type: string
-      repo_push:
+      repo-push:
         description: 'repo for push'
         type: string  
 
@@ -26,27 +26,27 @@ jobs:
     steps:
       - name: docker login for pull
         run: |
-          echo ${{inputs.repo_pull}}
-          repo_pull = ${{inputs.repo_pull}}/_/.
-          echo $repo_pull
-          echo "${{secrets[format('{0}_PASSWORD',inputs.repo_pull)]}}" | docker login $repo_pull -u "${{secrets[format('{0}_USERNAME',inputs.repo_pull)]}}" --password-stdin
+          echo ${{inputs.repo-pull}}
+          repo-pull = ${{inputs.repo-pull}}/_/.
+          echo $rep-_pull
+          echo "${{secrets[format('{0}_PASSWORD',inputs.repo-pull)]}}" | docker login $repo-pull -u "${{secrets[format('{0}_USERNAME',inputs.repo-pull)]}}" --password-stdin
       
       - name: docker pull
         id: docker_pull
         run: |
-          repo_pull = ${{inputs.repo_pull}}/_/. 
-          docker pull ${{ $repo_pull}}/${{ inputs.name }}:${{ inputs.tag }}
+          repo-pull = ${{inputs.repo-pull}}/_/. 
+          docker pull ${{ $repo-pull}}/${{ inputs.name }}:${{ inputs.tag }}
 
       - name: docker login for push
-        run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{ inputs.repo_push }} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
+        run: echo "${{secrets.ALIYUN_PASSWORD}}" | docker login ${{ inputs.repo-push }} -u "${{secrets.ALIYUN_USERNAME}}" --password-stdin
   
       - name: save as a tar and push to Aliyun
         id: push_and_tar
         run: |
           IMAGE_ID=$(docker images | grep ${{ inputs.name }}| grep ${{ inputs.tag }}| awk '{if(NR==1)print $3}')
           docker save -o ${{inputs.name}}-${{inputs.tag}}.tar $IMAGE_ID
-          docker tag "$IMAGE_ID" ${{inputs.repo_push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
-          docker push ${{inputs.repo_push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
+          docker tag "$IMAGE_ID" ${{inputs.repo-push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
+          docker push ${{inputs.repo-push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
           echo "tar_name=${{ inputs.name }}:${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
 
       - name: get image

@@ -73,9 +73,9 @@ jobs:
       name: ${{matrix.filename.name }}
       tag: ${{matrix.filename.tag }}
       platform: ${{matrix.filename.platform }}
-      repo_pull: ${{matrix.filename.repo }}
+      repo-pull: ${{matrix.filename.repo }}
       # 制定转存的私有仓库地址
-      repo_push: ${{vars.ALIYUN_REPO_NAME}}
+      repo-push: ${{vars.ALIYUN_REPO_NAME}}
     secrets: inherit
 
     

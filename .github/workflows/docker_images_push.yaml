@@ -49,7 +49,7 @@ jobs:
             fi
 
             # 获取仓库地址
-            REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{gsub($1,".","_");print toupper($1)}')
+            REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{gsub(/\./,"_",$1);print toupper($1)}')
             if [ -z $REPO ];then
               json="$json,\"repo\":\"$repo_name\""
             else   
@@ -74,8 +74,8 @@ jobs:
       name: ${{ matrix.files.name }}
       tag: ${{ matrix.files.tag }}
       platform: ${{ matrix.files.platform }}
-      repopull: ${{ matrix.files.repo }}
-      repopush: ${{ vars.ALIYUN_REPO_NAME }}
+      repo-pull: ${{ matrix.files.repo }}
+      repo-push: ${{ vars.ALIYUN_REPO_NAME }}
     secrets: inherit
 
     

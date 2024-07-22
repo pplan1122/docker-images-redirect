@@ -17,6 +17,7 @@ jobs:
         id: filenames
         run: |
           json="files=["
+          first=true
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
           while IFS= read -r line; do
@@ -24,7 +25,12 @@ jobs:
 
             json="$json{"
             echo $IMAGE_NAME
-            json="$json\"name\":$IMAGE_NAME\","
+            if [ "$first" = "true" ]; then
+              first=false
+            else
+              json="$json,"
+            fi
+            json="$json\"name\":$IMAGE_NAME\""
             
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
             if [ -z $IMAGE_TAG ];then
@@ -42,7 +48,7 @@ jobs:
             fi
             json="$json},"
           done <<< "$( cat docker-images | awk '$1 !~ /^#/ {if($1)print}')"
-
+          json="$json]"
 
           echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"

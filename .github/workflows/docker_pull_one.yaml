@@ -25,13 +25,15 @@ jobs:
   pull-images:
     runs-on: ubuntu-latest
     steps:
+      - name: docker login for pull
+        if: ${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }} 
+        run: |
+          REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '$1=tolower($1)' FS="_" OFS=".")
+          echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
+
       - name: docker pull
         run: |
-          echo ${{inputs.repo-pull}}
-          REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '$1=tolower($1)'' FS="_" OFS=".")
-          echo $REPOSITORY
-          echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
-          docker pull --platform=${{ inputs.platform }} $REPOSITORY/${{ inputs.name }}:${{ inputs.tag }}
+          docker pull --platform=${{ inputs.platform }} ${{ inputs.name }}:${{ inputs.tag }}
       
       - name: docker login for push
         run: echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login ${{ inputs.repo-push }} -u "${{ secrets.ALIYUN_USERNAME }}" --password-stdin

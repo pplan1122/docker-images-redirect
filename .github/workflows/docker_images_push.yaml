@@ -20,10 +20,11 @@ jobs:
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
           while IFS= read -r line; do
-            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo \"$line\" | awk '{split($1,array,":");print array[1],array[2]}')"       
-            
+            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo \"$line\" | awk '{split($1,array,":");print array[1],array[2]}')" 
+
+            json="$json{"
             echo $IMAGE_NAME
-            json="{$json\"name\":$IMAGE_NAME\","
+            json="$json\"name\":$IMAGE_NAME\","
             
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
             if [ -z $IMAGE_TAG ];then
@@ -32,11 +33,11 @@ jobs:
             json="$json\"tag\":$IMAGE_TAG\","
 
             IMAGE_PLATFORM=$(echo $line | awk '$0 ~/--platform/ {split($0,array,/--platform[ |=]/); print array[2]}'| awk '{print $1}')
-            if [ -z $IMAGE_PLATFORM ];then
+            if [ -n $IMAGE_PLATFORM ];then
               json="$json\"platform\":$IMAGE_PLATFORM\","
             fi
             REPO=$(echo $line | awk '$0 ~/--repo/ {split($0,array,/--repo[ |=]/); print array[2]}'| awk '{print $1}')
-            if [ -z $REPO ];then
+            if [ -n $REPO ];then
               json="$json\"repo\":$REPO\","
             fi
             json="$json},"

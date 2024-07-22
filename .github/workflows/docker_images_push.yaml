@@ -85,6 +85,6 @@ jobs:
 
     steps:
       - run: |
-        echo ${{env.name}}
-        echo ${{env.tag}}
-        echo ${{env.repo}}
+          echo ${{env.name}}
+          echo ${{env.tag}}
+          echo ${{env.repo}}

@@ -36,7 +36,7 @@ jobs:
         id: docker_pull
         run: |
           repopull = ${{ inputs.repopull }}/_/. 
-          docker pull ${{ $repopull }}/${{ inputs.name }}:${{ inputs.tag }}
+          docker pull $repopull/${{ inputs.name }}:${{ inputs.tag }}
 
       - name: docker login for push
         run: echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login ${{ inputs.repopush }} -u "${{ secrets.ALIYUN_USERNAME }}" --password-stdin

@@ -40,7 +40,7 @@ jobs:
             if [ -z $REPO ];then
               json="$json\"repo:$REPO\","
             fi
-            json="$json},"
+            json="$json\},"
           done <<< (cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
 
 

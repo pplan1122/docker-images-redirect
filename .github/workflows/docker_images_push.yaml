@@ -71,11 +71,11 @@ jobs:
         files: ${{ fromJSON(needs.define-matrix.outputs.files) }}      
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
-      name: ${{matrix.files.name }}
-      tag: ${{matrix.files.tag }}
-      platform: ${{matrix.files.platform }}
-      repopull: ${{matrix.files.repo }}
-      repopush: ${{vars.ALIYUN_REPO_NAME}}
+      name: ${{ matrix.files.name }}
+      tag: ${{ matrix.files.tag }}
+      platform: ${{ matrix.files.platform }}
+      repopull: ${{ matrix.files.repo }}
+      repopush: ${{ vars.ALIYUN_REPO_NAME }}
     secrets: inherit
 
     

@@ -28,10 +28,11 @@ jobs:
       - name: docker pull
         run: |
           echo ${{inputs.repo-pull}}
-          repo-pull = ${{ inputs.repo-pull }}/_/.
-          echo $rep-pull
-          echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $repo-pull -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
-          docker pull --platform=${{ inputs.platform }} $repo-pull/${{ inputs.name }}:${{ inputs.tag }}
+          REPOSITORY=${{ inputs.repo-pull }}/_/.
+          REPOSITORY=${REPOSITORY/_/.}
+          echo $REPOSITORY
+          echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
+          docker pull --platform=${{ inputs.platform }} $REPOSITORY/${{ inputs.name }}:${{ inputs.tag }}
       
       - name: docker login for push
         run: echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login ${{ inputs.repo-push }} -u "${{ secrets.ALIYUN_USERNAME }}" --password-stdin

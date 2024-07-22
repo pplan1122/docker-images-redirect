@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      filenames: ${{ steps.filenames.outputs.filenames}}
+      filenames: ${{ steps.filenames.outputs.files}}
 
     steps:
       - name: check out localrepo
@@ -67,7 +67,7 @@ jobs:
     needs: define-matrix
     strategy:
       matrix:
-        filename: ${{ fromJSON(needs.define-matrix.outputs.filenames) }}      
+        filename: ${{ fromJSON(needs.define-matrix.outputs.files) }}      
     # uses: ./.github/workflows/docker_pull_one.yaml
     # with:
     #   name: ${{matrix.name}}

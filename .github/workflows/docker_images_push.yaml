@@ -33,7 +33,7 @@ jobs:
             else
               json="$json,{"
             fi
-            json="$json\"name\":$IMAGE_NAME\""
+            json="$json\"name\":\"$IMAGE_NAME\""
             
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
             if [ -z $IMAGE_TAG ];then

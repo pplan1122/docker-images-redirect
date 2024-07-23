@@ -1,19 +1,16 @@
 name: docker_images_push
 
-on: [workflow_dispatch]
+on: [workflow_dispatch,push]
 
 
 jobs:
   define-matrix:
     runs-on: ubuntu-latest
-
     outputs:
       files: ${{ steps.filenames.outputs.files }}
-
     steps:
       - name: check out localrepo
         uses: actions/checkout@v4
-
       - name: porcess the file
         id: filenames
         run: |

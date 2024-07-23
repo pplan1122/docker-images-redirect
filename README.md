@@ -1,7 +1,3 @@
-
-[![GitHub Actions Status](https://img.shields.io/github/workflow/status/pplan1122/docker-images-redirect/CI)](https://github.com/pplan1122/docker-images-redirect/actions)
-[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
 ## 目录
 
 - [简介](#简介)
@@ -62,8 +58,8 @@
 
 ## 许可证
 
-本项目遵循 MIT 许可证。更多信息请参阅 [LICENSE](LICENSE) 文件。
+本项目遵循 MIT 许可证。更多信息请参阅 [LICENSE](./MIT License) 文件。
 
 ## 联系
 
-如果有任何疑问或需要进一步的帮助，请通过 [ISSUES](https://github.com/pplan1122/docker-images-redirect/issues) 页面提出问题。
+如果有任何疑问或需要进一步的帮助，请通过 [ISSUES] 页面提出问题。

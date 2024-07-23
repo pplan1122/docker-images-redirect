@@ -5,3 +5,4 @@
 # ruby:latest --platform=linux/arm64 --repo=docker.io
 redis
 python
+mysql

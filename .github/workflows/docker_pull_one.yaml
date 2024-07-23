@@ -50,7 +50,7 @@ jobs:
           docker save -o ${{ inputs.name }}-${{ inputs.tag }}.tar $IMAGE_ID
           docker tag "$IMAGE_ID" ${{inputs.repo-push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
           docker push ${{ inputs.repo-push }}/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
-          echo "tar_name=${{ inputs.name }}:${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
+          echo "tar_name=${{ inputs.name }}-${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
         
         # upload artifact  
       - name: get image

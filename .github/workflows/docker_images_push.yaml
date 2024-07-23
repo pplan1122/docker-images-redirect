@@ -1,6 +1,6 @@
 name: docker_images_push
 
-on: [workflow-dispatch]
+on: [workflow_dispatch]
 
 
 jobs:

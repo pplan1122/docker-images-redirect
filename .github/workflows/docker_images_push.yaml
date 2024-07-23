@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: check out localrepo
         uses: actions/checkout@v4
+
       - name: porcess the file
         id: filenames
         run: |
@@ -21,7 +22,10 @@ jobs:
           while IFS= read -r line; do
             # 读取文件
             read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");print array[1],array[2]}')" 
-
+            if [ -z "$line" ];then
+              echo "File does not exist."
+              exit 2
+            fi 
             # 获取镜像名称
             if [ "$first" = "true" ]; then
               first=false

@@ -1,6 +1,7 @@
 name: docker_images_push
 
-on: push
+on: [workflow-dispatch]
+
 
 jobs:
   define-matrix:

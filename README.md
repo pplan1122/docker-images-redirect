@@ -58,7 +58,7 @@
 
 ## 许可证
 
-本项目遵循 MIT 许可证。更多信息请参阅 [LICENSE](./MIT License) 文件。
+本项目遵循 MIT 许可证。更多信息请参阅 [LICENSE](./MIT%20License) 文件。
 
 ## 联系
 

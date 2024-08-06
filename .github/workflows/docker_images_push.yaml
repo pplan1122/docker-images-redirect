@@ -68,7 +68,7 @@ jobs:
           
   get-images:
     needs: define-matrix
-    
+
     strategy:
       matrix:
         files: ${{ fromJSON(needs.define-matrix.outputs.files) }}      

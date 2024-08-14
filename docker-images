@@ -1,3 +1,10 @@
 # 名称 架构 仓库地址
-# alpine:latest --platform=linux/arm64 --repo=docker.io
-alpine:latest --platform=linux/arm64 --repo=docker.io
+# alpine:latest --platform=linux/amd64 --repo=docker.io
+alpine:latest --platform=linux/amd64 --repo=docker.io
+node:alpine --platform=linux/amd64 --repo=docker.io
+redis:latest --platform=linux/amd64 --repo=docker.io
+busybox:latest --platform=linux/amd64 --repo=docker.io
+nginx:latest --platform=linux/amd64 --repo=docker.io
+httpd:latest --platform=linux/amd64 --repo=docker.io
+registry:latest --platform=linux/amd64 --repo=docker.io
+mongo:latest --platform=linux/amd64 --repo=docker.io

@@ -1,14 +1,13 @@
 name: docker_images_push
 
-on: push
+on: [workflow_dispatch,push]
+
 
 jobs:
   define-matrix:
     runs-on: ubuntu-latest
-
     outputs:
       files: ${{ steps.filenames.outputs.files }}
-
     steps:
       - name: check out localrepo
         uses: actions/checkout@v4
@@ -23,7 +22,10 @@ jobs:
           while IFS= read -r line; do
             # 读取文件
             read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");print array[1],array[2]}')" 
-
+            if [ -z "$line" ];then
+              echo "File does not exist."
+              exit 2
+            fi 
             # 获取镜像名称
             if [ "$first" = "true" ]; then
               first=false
@@ -66,6 +68,7 @@ jobs:
           
   get-images:
     needs: define-matrix
+
     strategy:
       matrix:
         files: ${{ fromJSON(needs.define-matrix.outputs.files) }}      

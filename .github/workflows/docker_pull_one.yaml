@@ -28,7 +28,7 @@ jobs:
       - name: docker login for pull
         run: |
           # get the corrected repositorty name if it exist.
-          if [ -n ${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }} ];then
+          if [ -n "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" ];then
             REPOSITORY=$(echo ${{ inputs.repo-pull }} | awk '{$1=tolower($1);$2=tolower($2)}' FS="_" OFS=".")
             echo "${{ secrets[format('{0}_PASSWORD',inputs.repo-pull)] }}" | docker login $REPOSITORY -u "${{ secrets[format('{0}_USERNAME',inputs.repo-pull)] }}" --password-stdin
           fi
@@ -50,7 +50,7 @@ jobs:
           docker save -o ${{ inputs.name }}-${{ inputs.tag }}.tar $IMAGE_ID
           docker tag "$IMAGE_ID" ${{inputs.repo-push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
           docker push ${{ inputs.repo-push }}/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
-          echo "tar_name=${{ inputs.name }}:${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
+          echo "tar_name=${{ inputs.name }}-${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
         
         # upload artifact  
       - name: get image

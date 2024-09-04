@@ -2,3 +2,4 @@
 # alpine:latest --platform=linux/amd64 --repo=docker.io
 
 node:alpine --platform=linux/amd64 --repo=docker.io
+istio/pilot:1.23.0

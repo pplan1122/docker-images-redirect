@@ -2,4 +2,4 @@
 # alpine:latest --platform=linux/amd64 --repo=docker.io
 
 
-istio/pilot:1.23.0 --platform=linux/amd64 --repo=docker.io
+pilot:1.23.0 --platform=linux/amd64 --repo=docker.io

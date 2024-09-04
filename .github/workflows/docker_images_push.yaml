@@ -1,7 +1,6 @@
 name: docker_images_push
 
-on: [workflow_dispatch,push]
-
+on: [workflow_dispatch, push]
 
 jobs:
   define-matrix:
@@ -21,7 +20,7 @@ jobs:
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
           while IFS= read -r line; do
             # 读取文件
-            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");print array[1],array[2]}')" 
+            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");if($0 ~/\//){split(array[1],name,"/");array[1]=name[2]};print array[1],array[2]}" 
             if [ -z "$line" ];then
               echo "File does not exist."
               exit 2
@@ -64,14 +63,12 @@ jobs:
           echo "$json"
           echo "$json" >> "$GITHUB_OUTPUT"
 
-
-          
   get-images:
     needs: define-matrix
 
     strategy:
       matrix:
-        files: ${{ fromJSON(needs.define-matrix.outputs.files) }}      
+        files: ${{ fromJSON(needs.define-matrix.outputs.files) }}
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       name: ${{ matrix.files.name }}
@@ -80,5 +77,3 @@ jobs:
       repo-pull: ${{ matrix.files.repo }}
       repo-push: ${{ vars.ALIYUN_REPO_NAME }}
     secrets: inherit
-
-    

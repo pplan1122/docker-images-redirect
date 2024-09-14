@@ -1,5 +1,4 @@
 # 名称 架构 仓库地址
+
 alpine:latest --platform=linux/amd64 --repo=docker.io
-
-
-
+docker:latest --platform=linux/amd64 --repo=docker.io

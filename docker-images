@@ -1,14 +1,5 @@
 # 名称 架构 仓库地址
-# alpine:latest --platform=linux/amd64 --repo=docker.io
+alpine:latest --platform=linux/amd64 --repo=docker.io
 
 
-istio/pilot:1.23.0 --platform=linux/amd64 --repo=docker.io
-istio/ztunnel --platform=linux/amd64 --repo=docker.io
-istio/base --platform=linux/amd64 --repo=docker.io
-istio/operator --platform=linux/amd64 --repo=docker.io
-istio/galley --platform=linux/amd64 --repo=docker.io
-istio/galley --platform=linux/amd64 --repo=docker.io
-istio/envoy --platform=linux/amd64 --repo=docker.io
-istio/proxy --platform=linux/amd64 --repo=docker.io
-istio/app --platform=linux/amd64 --repo=docker.io
-istio/mixer --platform=linux/amd64 --repo=docker.io
+

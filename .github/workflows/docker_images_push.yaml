@@ -20,7 +20,7 @@ jobs:
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
           while IFS= read -r line; do
             # 读取文件
-            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");if($0 ~/\//){split(array[1],name,"/");array[1]=name[2]};print array[1],array[2]}')"
+            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");if($0 ~/\//){split(array[1],name,"/");mirror_name=name[length(name)]}else{mirror_name=array[1]};print mirror_name,array[2]}')"
             if [ -z "$line" ];then
               echo "File does not exist."
               exit 2

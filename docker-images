@@ -1,12 +1,5 @@
 # 名称 架构 仓库地址
 
-registry.k8s.io/coredns:v1.11.3 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/etcd:3.5.15-0 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/kube-apiserver:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/kube-controller-manager:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/kube-proxy:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/kube-scheduler:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
-docker.io/flannel/flannel-cni-plugin:v1.5.1-flannel2 --platform=linux/amd64 --repo=docker.io
-docker.io/flannel/flannel:v0.25.6 --platform=linux/amd64 --repo=docker.io
-docker.io/rajchaudhuri/weave-kube:2.8.9 --platform=linux/amd64 --repo=docker.io
-quay.io/tigera/operator:v1.34.5 --platform=linux/amd64 --repo=quay.io
+registry.k8s.io/coredns/coredns:v1.11.3 --platform=linux/amd64 --repo=registry.k8s.io
+registry.k8s.io/etcd/etcd:3.5.15-0 --platform=linux/amd64 --repo=registry.k8s.io
+registry.k8s.io/kube-apiserver/kube-apiserver:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io

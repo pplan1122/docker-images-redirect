@@ -1,25 +1,24 @@
 name: docker_pull_one
 
-on: 
+on:
   workflow_call:
     inputs:
       name:
         required: true
-        description: 'docker image name'
+        description: "docker image name"
         type: string
       tag:
-        description: 'docker image tag'
+        description: "docker image tag"
         type: string
       platform:
-        description: 'docker image target platform'
+        description: "docker image target platform"
         type: string
       repo-pull:
-        description: 'repo for pull'
+        description: "repo for pull"
         type: string
       repo-push:
-        description: 'repo for push'
-        type: string  
-
+        description: "repo for push"
+        type: string
 
 jobs:
   pull-images:
@@ -35,29 +34,26 @@ jobs:
       - name: docker pull
         run: |
           docker pull --platform=${{ inputs.platform }} ${{ inputs.name }}:${{ inputs.tag }}
-        
+
         # login to the target repository
       - name: docker login for push
         run: echo "${{ secrets.ALIYUN_PASSWORD }}" | docker login ${{ inputs.repo-push }} -u "${{ secrets.ALIYUN_USERNAME }}" --password-stdin
-        
+
         # push to the target repository
       - name: save as a tar and push to Aliyun
         id: push_and_tar
         run: |
           # get image id
           IMAGE_ID=$(docker images | grep ${{ inputs.name }}| grep ${{ inputs.tag }}| awk '{if(NR==1)print $3}')
-          
+
           docker save -o ${{ inputs.name }}-${{ inputs.tag }}.tar $IMAGE_ID
           docker tag "$IMAGE_ID" ${{inputs.repo-push}}/${{github.actor}}/${{ inputs.name }}:${{ inputs.tag }}
           docker push ${{ inputs.repo-push }}/${{ github.actor }}/${{ inputs.name }}:${{ inputs.tag }}
           echo "tar_name=${{ inputs.name }}-${{ inputs.tag }}.tar" >> $GITHUB_OUTPUT
-        
-        # upload artifact  
+
+        # upload artifact
       - name: get image
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.push_and_tar.outputs.tar_name }}
           path: ${{ steps.push_and_tar.outputs.tar_name }}
-        
-      
-          

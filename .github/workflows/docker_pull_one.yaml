@@ -7,6 +7,10 @@ on:
         required: true
         description: "docker image name"
         type: string
+      fullname:
+        required: true
+        description: "image fullname"
+        type: string
       tag:
         description: "docker image tag"
         type: string
@@ -33,7 +37,7 @@ jobs:
           fi
       - name: docker pull
         run: |
-          docker pull --platform=${{ inputs.platform }} ${{ inputs.name }}:${{ inputs.tag }}
+          docker pull --platform=${{ inputs.platform }} ${{inputs.fullname}}
 
         # login to the target repository
       - name: docker login for push

@@ -20,7 +20,7 @@ jobs:
           # mapfile -t ARRAY_FILENAMES < <(cat docker-images | awk '$1 !~ /^#/ {if($1)print}')
           while IFS= read -r line; do
             # 读取文件
-            read -r IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");if($0 ~/\//){split(array[1],name,"/");mirror_name=name[length(name)]}else{mirror_name=array[1]};print mirror_name,array[2]}')"
+            read -r FULL_NAME IMAGE_NAME IMAGE_TAG <<< "$( echo $line | awk '{split($1,array,":");if($0 ~/\//){split(array[1],name,"/");mirror_name=name[length(name)]}else{mirror_name=array[1]};print $1,mirror_name,array[2]}')"
             if [ -z "$line" ];then
               echo "File does not exist."
               exit 2
@@ -32,7 +32,7 @@ jobs:
             else
               json="$json,{"
             fi
-            json="$json\"name\":\"$IMAGE_NAME\""
+            json="$json\"name\":\"$IMAGE_NAME\",\"fullname\":\"$FULL_NAME\""
             
             # 获取镜像tag
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/@[^/]*//g')
@@ -72,6 +72,7 @@ jobs:
     uses: ./.github/workflows/docker_pull_one.yaml
     with:
       name: ${{ matrix.files.name }}
+      fullname: ${{ matrix.files.fullname }}
       tag: ${{ matrix.files.tag }}
       platform: ${{ matrix.files.platform }}
       repo-pull: ${{ matrix.files.repo }}

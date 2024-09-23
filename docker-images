@@ -1,7 +1,5 @@
 # 名称 架构 仓库地址
 
-alpine:latest --platform=linux/amd64 --repo=docker.io
-docker:latest --platform=linux/amd64 --repo=docker.io
 coredns:v1.11.3 --platform=linux/amd64 --repo=registry.k8s.io
 etcd:3.5.15-0 --platform=linux/amd64 --repo=registry.k8s.io
 kube-apiserver:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io

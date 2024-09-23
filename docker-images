@@ -8,5 +8,5 @@ kube-proxy:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
 kube-scheduler:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
 flannel/flannel-cni-plugin:v1.5.1-flannel2 --platform=linux/amd64 --repo=docker.io
 flannel/flannel:v0.25.6 --platform=linux/amd64 --repo=docker.io
-weave-kube:2.8.9 --platform=linux/amd64 --repo=registry.k8s.io
+rajchaudhuri/weave-kube:2.8.9 --platform=linux/amd64 --repo=registry.k8s.io
 tigera/operator:v1.34.5 --platform=linux/amd64 --repo=quay.io

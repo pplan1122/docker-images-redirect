@@ -1,4 +1,4 @@
 # 名称 架构 仓库地址
 
-registry.k8s.io/puase/puase:3.9 --platform=linux/amd64 --repo=registry.k8s.io
+registry.k8s.io/puase:3.9 --platform=linux/amd64 --repo=registry.k8s.io
 

@@ -2,4 +2,4 @@
 
 registry.k8s.io/coredns/coredns:v1.11.3 --platform=linux/amd64 --repo=registry.k8s.io
 registry.k8s.io/etcd/etcd:3.5.15-0 --platform=linux/amd64 --repo=registry.k8s.io
-registry.k8s.io/kube-apiserver/kube-apiserver:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io
+registry.k8s.io/kube-apiserver:v1.30.5 --platform=linux/amd64 --repo=registry.k8s.io

@@ -1,4 +1,3 @@
 # 名称 架构 仓库地址
 
-registry.k8s.io/pause:3.10 --platform=linux/amd64 --repo=registry.k8s.io
-
+registry.k8s.io/metrics-server/metrics-server:v0.7.2 --platform=linux/amd64 --repo=registry.k8s.io

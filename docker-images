@@ -2,4 +2,5 @@
 
 #registry.k8s.io/metrics-server/metrics-server:v0.7.2 --platform=linux/amd64 --repo=registry.k8s.io
 
-quay.io/tigera/operator:v1.34.5  --platform=linux/amd64 --repo=quay.io
+docker.io/calico/pod2daemon-flexvol:v3.28.2
+docker.io/calico/typha:v3.28.2
